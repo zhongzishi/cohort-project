@@ -25,7 +25,8 @@ detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml");
 # function to get the images and label data
 def getImagesAndLabels(path):
 
-    imagePaths = [os.path.join(path,f) for f in os.listdir(path)]     
+    imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
+    imagePaths.remove('dataset/.DS_Store')     
     faceSamples=[]
     ids = []
 
@@ -48,6 +49,8 @@ faces,ids = getImagesAndLabels(path)
 recognizer.train(faces, np.array(ids))
 
 # Save the model into trainer/trainer.yml
+if not os.path.exists("trainer"):
+    os.mkdir("trainer")
 recognizer.write('trainer/trainer.yml') 
 # recognizer.save('trainer/trainer.yml') #for opencv version < 3.4
 
